@@ -1,0 +1,53 @@
+How it works
+============
+If a connect login occurs and that facebook ID has never logged in to this site, a standard django.contrib.auth user is created, as well as a custom FacebookUser object that keeps track of the Facebook - Django user ID mappings. If the user has previously logged on, the corresponding Django user is used. The user is then logged in just like any regular Django user.
+Setup
+
+Install
+=======
+
+Start by creating a facebook application that your site will use for connect.
+
+The important thing here is to get the 'Connect URL' right, which is under the 'Connect' tab. It will be http://<your-project's-address>/facebookconnect
+
+In your django project that will be using connect, setup the following values in your settings.py (or wherever you keep your settings) (replace the xxxxxxxx with the correct values for your setup):
+
+# where the user will go after they log in via facebook
+LOGIN_REDIRECT_URL = '/blog/'
+# the application api key given by facebook
+FACEBOOK_API_KEY = 'xxxxxxxx'
+# the application secret key given by facebook
+FACEBOOK_APPLICATION_SECRET = 'xxxxxxxx'
+
+# add the facebookconnect app to the list of apps.
+INSTALLED_APPS = (
+    ...
+    'facebookconnect',
+    ...
+)
+
+Include the facebook connect url file to your urls:
+
+urlpatterns = pattern('',
+   ...
+   (r'^facebookconnect/', include('facebookconnect.urls'),
+   ...
+)
+
+Usage
+=====
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:fb="http://www.facebook.com/2008/fbml">
+<body>
+
+<p>Login via facebook!</p>
+
+{% load facebookconnect %}
+{% facebook_connect_login_button %}
+
+{% facebook_connect_script %}
+
+</body>
+</html>
+
