@@ -1,0 +1,7 @@
+*.pyc
+.svn
+.DS_Store
+*.kpf
+*~
+.DS_Store
+\#*#
